@@ -32,7 +32,7 @@ session_start();
             <div class="menu">
                 <button class="menu-hamburguer" onclick="toggleMenu()">☰</button>
                 <div class="menu-content" id="menu-content">
-                    <a href="perfil.php">Editar Perfil</a>
+                    <a href="../perfil/usuario.php">Editar Perfil</a>
                     <a href="logout.php">Sair</a>
                 </div>
             </div>

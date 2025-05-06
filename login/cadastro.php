@@ -1,7 +1,5 @@
 <?php 
 
-// Estabelece conexão com o banco de dados MySQL
-
 include ('../config.php');
 
 $erro = ""; // Variável para armazenar mensagens de erro
@@ -13,37 +11,39 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $confirm_senha = $_POST["confirm_senha"];
 
     if ($senha !== $confirm_senha) {
-        $erro = "Erro: As senhas não coincidem."; // Define a mensagem de erro
+        $erro = "Erro: As senhas não coincidem.";
     } else {
-        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);// Criptografa a senha
+        $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+        $imagem_padrao = "../perfil/uploads/default.jpg"; // Caminho da imagem padrão
 
-    // Verifica se a conexão com o banco foi feita corretamente
-    if ($conn->connect_error) {
-        die("Falha na conexão: " . $conn->connect_error);
+        if ($conn->connect_error) {
+            die("Falha na conexão: " . $conn->connect_error);
+        }
+
+        // Atualizado para incluir o campo da imagem de perfil
+        $sql = "INSERT INTO userss (nome, email, senha, imagem_perfil) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+
+        if (!$stmt) {
+            die("Erro ao preparar a query: " . $conn->error);
+        }
+
+        $stmt->bind_param("ssss", $nome, $email, $senha_hash, $imagem_padrao);
+
+        if ($stmt->execute()) {
+            header("Location: login.php"); 
+            exit();
+        } else {
+            echo "Erro ao executar a query: " . $stmt->error;
+        }
+
+        $stmt->close();
     }
 
-    // Prepara a query
-    $sql = "INSERT INTO userss (nome, email, senha) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-
-    if (!$stmt) {
-        die("Erro ao preparar a query: " . $conn->error); //  Se a preparação falhar, exibe o erro
-    }
-
-    $stmt->bind_param("sss", $nome, $email, $senha_hash);
-
-    if ($stmt->execute()) {
-        //echo "Usuário cadastrado com sucesso!"; //  Temporariamente exibe mensagem ao invés de redirecionar
-        header("Location: login.php"); 
-        exit();
-    } else {
-        echo "Erro ao executar a query: " . $stmt->error; //  Mostra possivel erro
-    }
-    $stmt->close();
-}
     $conn->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
