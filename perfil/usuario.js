@@ -12,10 +12,10 @@ const profilePicInput = document.getElementById('profile-pic');
 
                 reader.readAsDataURL(file);
             }
-        });
+        });//imagem do perfil
 
-        const form = document.querySelector("form");
-
+        const form = document.querySelector("form"); 
+//modais de confirmação
   const modalUpdate = document.getElementById("modalUpdate");
   const modalDelete = document.getElementById("modalDelete");
 
