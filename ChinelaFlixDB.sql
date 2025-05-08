@@ -7,15 +7,3 @@ CREATE TABLE userss (
 	email VARCHAR(155) NOT NULL UNIQUE,
 	senha VARCHAR(45) NOT NULL
 );
-SELECT * FROM userss;
-
-DESCRIBE userss;
-ALTER TABLE userss MODIFY senha VARCHAR(255) NOT NULL;
-
-ALTER TABLE userss ADD COLUMN imagem_perfil VARCHAR(255);
-
-DELETE FROM userss;
-
--- Reinicia a contagem do campo AUTO_INCREMENT (ID)
-ALTER TABLE userss AUTO_INCREMENT = 1;
-
