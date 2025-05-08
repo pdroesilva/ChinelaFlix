@@ -1,5 +1,6 @@
 <?php  
 session_start();
+$usuarioLogado = isset($_SESSION['user_id']) ? 'true' : 'false';
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -60,7 +61,7 @@ session_start();
     <H1 class="titulo-main">Domine o pvp com <span style="color: red;">ChinelaFlix</span><br> e torne-se invencivel!</H1>
     <p>Vai mesmo ficar para tras? chega de perder pra esses randoms. <br>A partir de 10,99 você fara parte dos <span style="color: red; font: bold;">1% </span>que sabem os segredos das lendas do pvp. <br> Lidere os rankings com <span style="color: red; font: bold;">ChinelaFlix🏆</span></p>
     <br>
-    <button class="iniciar">Comece Aqui</button>
+    <button class="iniciar" id="iniciar" data-logged="<?php echo $usuarioLogado; ?>">Comece Aqui</button>
 </div>
 <!-- FIM CHAMAR ATENÇAO -->
 <br>
@@ -87,7 +88,7 @@ session_start();
 <!-- FIM DO: MID SITE -->
 
 <!-- SEÇÃO DOS PLANOS CHINELAFLIX -->
-<div class="planos">
+<div class="planos" id="planos">
     <div class="produtos">
         <h2>Plano mensal <br>[10,99]</h2>
         <img src="img/steve.jpg" alt=""> 

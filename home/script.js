@@ -12,3 +12,16 @@ document.addEventListener("click", function(event) {
         menu.style.display = "none";
     }
 });
+
+
+document.getElementById("iniciar").addEventListener("click", function() {
+    const usuarioLogado = this.getAttribute("data-logged") === 'true'; // Recupera o valor do data-attribute
+
+    if (usuarioLogado) {
+        // Se o usuário estiver logado, faz o scroll até a seção de planos
+        document.getElementById("planos").scrollIntoView({ behavior: 'smooth' });
+    } else {
+        // Caso não esteja logado, redireciona para a página de login
+        window.location.href = "/Chinelaflix/login/login.php";
+    }
+});

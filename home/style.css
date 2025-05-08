@@ -1,290 +1,316 @@
 @media (max-width: 1440px) {
-    .container {
-        width: 90%;
-    }
+  .container {
+    width: 90%;
   }
-  
-  @media (max-width: 1280px) {
-    .sidebar {
-        display: none; /* Esconder barra lateral se a tela for menor */
-    }
-  }
-  
-  @media (max-width: 1024px) {
-    .menu {
-        flex-direction: column;
-    }
-  }
-  
-  /* Inicio, estilizações globais */
-  body{
-      margin: 0px;
-      font-family: 'poppins', sans-serif;
-      background-color: black;
-      color: azure;
-  }
-  
-  /*BARRA DE ROLAGEM PERSONALIZADA*/
-    html {
-      scrollbar-width: thin;
-      scrollbar-color: #353535 #4b4b4b;
-    }
-    /* fim das estilizações globais */
-  
-  
-  
-  /* CABEÇALHO */
-  header{
-      position: relative;
-      text-align: center;
-      background-color: black;
-      width: 100%;
-      background-image: linear-gradient(to top, black, #2a2158);
-  }
-  
-  .cabecalho li {
-      font-size: 1rem;
-      display: inline-block;
-      margin: 50px 2vw; /* Espaçamento entre os parágrafos */
-  }
-  
-  .cabecalho h1 {
-      font-size: 2.4rem;
-      display: inline-block;
-      color: rgb(255, 0, 0);
-  }
-  
-  .cabecalho li a:hover {
-    background-color: #fff;
-    color: #0F1C2E;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra leve */
-  }
-  
-  .cabecalho li a {
-    text-decoration: none;
-    color: #fff;
-    font-size: 1.1rem;
-    padding: 0.5vw 1vw;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-  }
-  
-  /* Efeito de inversão de cores ao passar o mouse */
-  .cabecalho li a:hover {
-    background-color: #fff;
-    color: #0F1C2E;
-  }
-  
-  .loginbtn {
-    font-size: 1rem;
-    background-color: transparent;
-    color: white;
-    border: 0.1rem solid #ffffff; 
-    border-radius: 0.5rem;
-    cursor: pointer;
-  }
-  /* FIM DO CABEÇALHO */
-  
-  /* MENU HAMBURGUER */
-  .menu {
-    position: relative;
-    display: inline-block;
-  }
-  
-  .menu-hamburguer {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: white;
-  }
-  
-  .menu-content {
+}
+
+@media (max-width: 1280px) {
+  .sidebar {
     display: none;
-    position: absolute;
-    right: 0;
-    background: white;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    min-width: 150px;
-    border-radius: 5px;
-    z-index: 100;
+    /* Esconder barra lateral se a tela for menor */
   }
-  
-  .menu-content a {
-    display: block;
-    padding: 10px;
-    text-decoration: none;
-    color: black;
+}
+
+@media (max-width: 1024px) {
+  .menu {
+    flex-direction: column;
   }
-  
-  .menu-content a:hover {
-    background-color: #f1f1f1;
+}
+
+@keyframes aparecer { 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  /* FIM DO MENU HAMBURGUER */
-  
-  /* COMEÇO DO SITE */
-  .main-container{
-    align-items: center;
-    text-align: center;
-    }
-  
-    
-    .MEUVIDEO{
-      display: flex;
-      width: 20%;
-      align-items: center;
-      text-align: center;
-      z-index: -1;
-      top: 20%;
-      opacity: 38%;
-      width: 100%;
-  }
-  
-  
-  .videoclip{
-      display: flex;
-      align-items: center;
-      text-align: center;
-  }
-  
-    /* Título chamativo */
-    .titulo-main{
-      margin-top: -40vw;
-      font-size: 3.3rem; 
-      font-weight: bold;
-    }
-  
-    .main-container p{
-      font-size: 1rem; 
-    }
-  
-    .main-container button{
-      text-align: center; 
-      font-size: 1.2rem;
-      color: white;
-      background-color: rgb(173, 0, 0);
-      border: 0px solid #ffffff00; 
-      border-radius: 0.3rem;
-      cursor: pointer;
-    } 
-    /* FIM COMEÇO SITE */
-    
-  
-  
-  
-    /* MID SITE DENOVO DO 0 PQ TA FD */
-    .mid-site{
-      margin-left: 2vw;
-      margin-top: 39vh;
-      display: flex;
-      flex-direction: row;
-    }
-  
-    .mid-site p{
-      font-size: 1.3vw;
-    }
-  
-    .mid-site h2{
-      font-size: 2.7vw;
-    }
-  
-    .mid-text{
-      text-align: justify;
-      max-width: 50%;
-    }
-  
-    .legends img{
-      margin-top: 3.4vw;
-      width: 9VW;
-    }
-  /* FIM DO MID SITE, N TA COMO EU QRIA AINDA MAS TA MLHR QUE ANTES */
-  
-  
-  
-  
-  /* SEÇÃO PLANOS DE COMPRA */
-  .planos{
-    display: flex;
-    justify-content: space-between;
-    /* margin-top: 3vw; Reduzindo espaçamento */
-  }
-  
-  .produtos {
-    width: 20%; /* Define a largura de cada div */
-    border-radius: 1vw;
-    padding: 10px 20px;
-    height: 100%;
-    margin: 5vw;
-    background-color: white;
-    color: black;
-    text-align: center; /* Centraliza o texto dentro de cada div */
-  }
-  
-  .produtos h2{
-    font-size: 2vw;
-  }
-  
-  .produtos img{
-    border-radius: 1vw;
-    width: 50%;
-  }
-  
-  .buy{
-    text-align: center; 
-    font-size: 1.4vw;
-    color: white;
-    background-color: rgb(173, 0, 0);
-    padding: 10px 10px;
-    border: 0px solid #ffffff; 
-    border-radius: 5px;
-    cursor: pointer;
-  } 
-  /* FIM SEÇÃO PLANOS DE COMPRA */
-  
-  
-  
-  
-  /* RODAPE */
-  footer {
-    background-image: linear-gradient(to bottom, black, #2a2158);
-    color: white;
-    padding: 2vw 0;
-    text-decoration: none;
-    color: white;
-  }
-  
-  .footer-main {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    max-width: 120vw;
-    margin: auto;
-    padding: 4vw;
-  }
-  
-  .footer-main h2{
-    font-size: 2.7vw;
-  }
-  
-  .redes-sociais img {
-    display: inline-block;
-    margin-right: 0.3vw;
-    width: 2.5rem;
-    height: 2.5rem;
-  }
-  
-  .footer-bottom {
-    text-align: center;
-  }
-  
-  li {
-    list-style-type: none;
-    color: white;
-  }
-  
-  a {
-    all: unset; /* Remove todos os estilos padrões */
-    cursor: pointer; /* Mantém o cursor indicando que é clicável */
-  }
-  /* FIM DO RODAPE */
+}
+
+/* Inicio, estilizações globais */
+body {
+  margin: 0px;
+  font-family: 'poppins', sans-serif;
+  background-color: black;
+  color: azure;
+}
+
+/*BARRA DE ROLAGEM PERSONALIZADA*/
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #353535 #4b4b4b;
+}
+
+/* fim das estilizações globais */
+
+
+
+/* CABEÇALHO */
+header {
+  position: relative;
+  text-align: center;
+  background-color: black;
+  width: 100%;
+  background-image: linear-gradient(to top, black, #2a2158);
+}
+
+.cabecalho li {
+  font-size: 1rem;
+  display: inline-block;
+  margin: 50px 2vw;
+  /* Espaçamento entre os parágrafos */
+}
+
+.cabecalho h1 {
+  font-size: 2.4rem;
+  display: inline-block;
+  color: rgb(255, 0, 0);
+}
+
+.cabecalho li a:hover {
+  background-color: #fff;
+  color: #0F1C2E;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Sombra leve */
+}
+
+.cabecalho li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.1rem;
+  padding: 0.5vw 1vw;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+/* Efeito de inversão de cores ao passar o mouse */
+.cabecalho li a:hover {
+  background-color: #fff;
+  color: #0F1C2E;
+}
+
+.loginbtn {
+  font-size: 1rem;
+  background-color: transparent;
+  color: white;
+  border: 0.1rem solid #ffffff;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+/* FIM DO CABEÇALHO */
+
+/* MENU HAMBURGUER */
+.menu {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-hamburguer {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+}
+
+.menu-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  min-width: 150px;
+  border-radius: 5px;
+  z-index: 100;
+}
+
+.menu-content a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.menu-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* FIM DO MENU HAMBURGUER */
+
+/* COMEÇO DO SITE */
+.main-container {
+  align-items: center;
+  text-align: center;
+}
+
+
+.MEUVIDEO {
+  display: flex;
+  width: 20%;
+  align-items: center;
+  text-align: center;
+  z-index: -1;
+  top: 20%;
+  opacity: 38%;
+  width: 100%;
+}
+
+
+.videoclip {
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+/* Título chamativo */
+.titulo-main {
+  margin-top: -40vw;
+  font-size: 3.3rem;
+  font-weight: bold;
+}
+
+.main-container p {
+  font-size: 1rem;
+}
+
+.main-container button:active {
+  transform: scale(0.96);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.main-container button {
+  text-align: center;
+  padding: 0.5vw;
+  font-size: 1.2rem;
+  color: white;
+  background-color: rgb(173, 0, 0);
+  border: 0px solid #ffffff00;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+/* FIM COMEÇO SITE */
+
+
+
+
+/* MID SITE DENOVO DO 0 PQ TA FD */
+.mid-site {
+  margin-left: 2vw;
+  margin-top: 39vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.mid-site p {
+  font-size: 1.3vw;
+}
+
+.mid-site h2 {
+  font-size: 2.7vw;
+}
+
+.mid-text {
+  text-align: justify;
+  max-width: 50%;
+}
+
+.legends img {
+  margin-top: 3.4vw;
+  width: 9VW;
+}
+
+/* FIM DO MID SITE, N TA COMO EU QRIA AINDA MAS TA MLHR QUE ANTES */
+
+
+
+
+/* SEÇÃO PLANOS DE COMPRA */
+.planos {
+  display: flex;
+  justify-content: space-between;
+  /* margin-top: 3vw; Reduzindo espaçamento */
+}
+
+.produtos {
+  width: 20%;
+  /* Define a largura de cada div */
+  border-radius: 1vw;
+  padding: 10px 20px;
+  height: 100%;
+  margin: 5vw;
+  background-color: white;
+  color: black;
+  text-align: center;
+  /* Centraliza o texto dentro de cada div */
+}
+
+.produtos h2 {
+  font-size: 2vw;
+}
+
+.produtos img {
+  border-radius: 1vw;
+  width: 50%;
+}
+
+.buy {
+  text-align: center;
+  font-size: 1.4vw;
+  color: white;
+  background-color: rgb(173, 0, 0);
+  padding: 10px 10px;
+  border: 0px solid #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* FIM SEÇÃO PLANOS DE COMPRA */
+
+
+
+
+/* RODAPE */
+footer {
+  background-image: linear-gradient(to bottom, black, #2a2158);
+  color: white;
+  padding: 2vw 0;
+  text-decoration: none;
+  color: white;
+}
+
+.footer-main {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 120vw;
+  margin: auto;
+  padding: 4vw;
+}
+
+.footer-main h2 {
+  font-size: 2.7vw;
+}
+
+.redes-sociais img {
+  display: inline-block;
+  margin-right: 0.3vw;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.footer-bottom {
+  text-align: center;
+}
+
+li {
+  list-style-type: none;
+  color: white;
+}
+
+a {
+  all: unset;
+  /* Remove todos os estilos padrões */
+  cursor: pointer;
+  /* Mantém o cursor indicando que é clicável */
+}
+
+/* FIM DO RODAPE */
