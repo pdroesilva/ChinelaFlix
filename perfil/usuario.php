@@ -77,10 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $stmtImg->execute();
                             $stmtImg->close();
                         } else {
-                            $erro .= " Não foi possível salvar a imagem.";
+                            $erro = " Não foi possível salvar a imagem.";
                         }
                     } else {
-                        $erro .= " Formato de imagem inválido.";
+                        $erro = " Formato de imagem inválido.";
                     }
                 }
                 // --- Fim do tratamento da imagem ---
