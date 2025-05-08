@@ -43,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_name'] = $usuario['nome'];
             
             // Redireciona para a home
-            header("Location: /GitHub/chinelaflix/home/index.php");
+            header("Location: /chinelaflix/home/index.php");
             exit();
         } else {
             // Senha incorreta
