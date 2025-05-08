@@ -1,5 +1,4 @@
 <?php 
-
 include ('../config.php');
 
 $erro = ""; // Variável para armazenar mensagens de erro
@@ -20,30 +19,48 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
             die("Falha na conexão: " . $conn->connect_error);
         }
 
-        // Atualizado para incluir o campo da imagem de perfil
-        $sql = "INSERT INTO userss (nome, email, senha, imagem_perfil) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-
-        if (!$stmt) {
+        // Verificar se o e-mail já existe no banco
+        $sql_verifica_email = "SELECT * FROM userss WHERE email = ?";
+        $stmt_verifica = $conn->prepare($sql_verifica_email);
+        
+        if (!$stmt_verifica) {
             die("Erro ao preparar a query: " . $conn->error);
         }
 
-        $stmt->bind_param("ssss", $nome, $email, $senha_hash, $imagem_padrao);
+        $stmt_verifica->bind_param("s", $email);
+        $stmt_verifica->execute();
+        $stmt_verifica->store_result();
 
-        if ($stmt->execute()) {
-            header("Location: login.php"); 
-            exit();
+        // Se o e-mail já existe, define a mensagem de erro
+        if ($stmt_verifica->num_rows > 0) {
+            $erro = "Erro: E-mail já existente.";
         } else {
-            echo "Erro ao executar a query: " . $stmt->error;
+            // Se o e-mail não existe, inserir o novo usuário
+            $sql = "INSERT INTO userss (nome, email, senha, imagem_perfil) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+
+            if (!$stmt) {
+                die("Erro ao preparar a query: " . $conn->error);
+            }
+
+            $stmt->bind_param("ssss", $nome, $email, $senha_hash, $imagem_padrao);
+
+            if ($stmt->execute()) {
+                header("Location: login.php"); 
+                exit();
+            } else {
+                echo "Erro ao executar a query: " . $stmt->error;
+            }
+
+            $stmt->close();
         }
 
-        $stmt->close();
+        $stmt_verifica->close();
     }
 
     $conn->close();
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-BR">

@@ -1,7 +1,7 @@
-<?php 
+<?php
 
 session_start();
-include ('../config.php');
+include('../config.php');
 
 $erro = ""; // Variável para armazenar mensagens de erro
 
@@ -15,66 +15,81 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Verifica se os dados foram enviados
-    if (isset($_POST['name'], $_POST['email'])) {
-        $nome = $_POST['name'];
-        $email = $_POST['email'];
-        $senha = $_POST['password']; // Captura a nova senha
+    if (isset($_POST['name'], $_POST['email']) && !empty(trim($_POST['name'])) && !empty(trim($_POST['email']))) {
+        $nome = trim($_POST['name']);
+        $email = trim($_POST['email']);
+        $senha = $_POST['password'];
 
-        // Atualiza os dados principais
-        if (!empty($senha)) {
-            $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-            $sql = "UPDATE userss SET nome = ?, email = ?, senha = ? WHERE id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssi", $nome, $email, $senha_hash, $user_id);
+        // Regex mais restrita: antes do @ só letras, números, ponto, traço e underline
+        $regexEmail = "/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+
+        if (!preg_match($regexEmail, $email)) {
+            $erro = "Erro: O e-mail informado possui caracteres inválidos.";
         } else {
-            $sql = "UPDATE userss SET nome = ?, email = ? WHERE id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssi", $nome, $email, $user_id);
-        }
+            // Verifica se o e-mail já existe no banco (exceto o do usuário atual)
+            $sql_verifica_email = "SELECT * FROM userss WHERE email = ? AND id != ?";
+            $stmt_verifica = $conn->prepare($sql_verifica_email);
+            $stmt_verifica->bind_param("si", $email, $user_id);
+            $stmt_verifica->execute();
+            $stmt_verifica->store_result();
 
-        if ($stmt->execute()) {
-            $erro = "Dados atualizados com sucesso!";
-        } else {
-            $erro = "Erro ao atualizar os dados";
-        }
-        $stmt->close();
-
-        // --- Aqui começa o tratamento da imagem ---
-        if (isset($_FILES['profile-pic']) && $_FILES['profile-pic']['error'] === UPLOAD_ERR_OK) {
-            $arquivoTmp = $_FILES['profile-pic']['tmp_name'];
-            $nomeOriginal = $_FILES['profile-pic']['name'];
-            $extensao = strtolower(pathinfo($nomeOriginal, PATHINFO_EXTENSION));
-            $permitidas = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-
-            if (in_array($extensao, $permitidas)) {
-                // Gera um nome único para evitar conflitos
-                $novoNome = uniqid('img_', true) . '.' . $extensao;
-                $caminho = 'uploads/' . $novoNome;
-
-                // Garante que a pasta exista
-                if (!is_dir('uploads')) {
-                    mkdir('uploads', 0755, true);
-                }
-
-                // Move a imagem para a pasta
-                if (move_uploaded_file($arquivoTmp, $caminho)) {
-                    // Atualiza o caminho da imagem no banco
-                    $sqlImg = "UPDATE userss SET imagem_perfil = ? WHERE id = ?";
-                    $stmtImg = $conn->prepare($sqlImg);
-                    $stmtImg->bind_param("si", $caminho, $user_id);
-                    $stmtImg->execute();
-                    $stmtImg->close();
-                } else {
-                    $erro .= " Não foi possível salvar a imagem.";
-                }
+            if ($stmt_verifica->num_rows > 0) {
+                $erro = "Erro: E-mail já existente.";
             } else {
-                $erro .= " Formato de imagem inválido.";
+                // Atualiza os dados
+                if (!empty($senha)) {
+                    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
+                    $sql = "UPDATE userss SET nome = ?, email = ?, senha = ? WHERE id = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("sssi", $nome, $email, $senha_hash, $user_id);
+                } else {
+                    $sql = "UPDATE userss SET nome = ?, email = ? WHERE id = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("ssi", $nome, $email, $user_id);
+                }
+
+                if ($stmt->execute()) {
+                    $erro = "Dados atualizados com sucesso!";
+                } else {
+                    $erro = "Erro ao atualizar os dados.";
+                }
+                $stmt->close();
+
+                // --- Tratamento da imagem ---
+                if (isset($_FILES['profile-pic']) && $_FILES['profile-pic']['error'] === UPLOAD_ERR_OK) {
+                    $arquivoTmp = $_FILES['profile-pic']['tmp_name'];
+                    $nomeOriginal = $_FILES['profile-pic']['name'];
+                    $extensao = strtolower(pathinfo($nomeOriginal, PATHINFO_EXTENSION));
+                    $permitidas = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+                    if (in_array($extensao, $permitidas)) {
+                        $novoNome = uniqid('img_', true) . '.' . $extensao;
+                        $caminho = 'uploads/' . $novoNome;
+
+                        if (!is_dir('uploads')) {
+                            mkdir('uploads', 0755, true);
+                        }
+
+                        if (move_uploaded_file($arquivoTmp, $caminho)) {
+                            $sqlImg = "UPDATE userss SET imagem_perfil = ? WHERE id = ?";
+                            $stmtImg = $conn->prepare($sqlImg);
+                            $stmtImg->bind_param("si", $caminho, $user_id);
+                            $stmtImg->execute();
+                            $stmtImg->close();
+                        } else {
+                            $erro .= " Não foi possível salvar a imagem.";
+                        }
+                    } else {
+                        $erro .= " Formato de imagem inválido.";
+                    }
+                }
+                // --- Fim do tratamento da imagem ---
             }
+
+            $stmt_verifica->close();
         }
-        // --- Fim do tratamento da imagem ---
     } else {
-        $erro = "Por favor, preencha todos os campos";
+        $erro = "Por favor, preencha todos os campos.";
     }
 }
 
@@ -96,7 +111,6 @@ $stmt->close();
 $conn->close();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -116,39 +130,39 @@ $conn->close();
         <h2>Editar Perfil</h2>
 
         <form action="<?= htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="POST" enctype="multipart/form-data">
-        <div class="avatar-container">
-        <img src="<?= $userss['imagem_perfil'] ?>" alt="Foto de Perfil" id="avatar-preview">
-            <label for="profile-pic" class="edit-icon">
-                <input type="file" id="upload-img" style="display: none;">
-                <i class="fa fa-pencil"></i>
-            </label>
-            <input type="file" id="profile-pic" name="profile-pic" accept="image/*" hidden />
-        </div>
+            <div class="avatar-container">
+                <img src="<?= $userss['imagem_perfil'] ?>" alt="Foto de Perfil" id="avatar-preview">
+                <label for="profile-pic" class="edit-icon">
+                    <input type="file" id="upload-img" style="display: none;">
+                    <i class="fa fa-pencil"></i>
+                </label>
+                <input type="file" id="profile-pic" name="profile-pic" accept="image/*" hidden />
+            </div>
 
             <div class="form-group">
                 <label for="name">Nome</label>
-                <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($userss['nome']); ?>">
+                <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($userss['nome']); ?>" require>
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
-            <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($userss['email']); ?>">
+                <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($userss['email']); ?>" require>
             </div>
 
             <div class="form-group">
                 <label for="password">Senha</label>
-            <input type="password" id="password" name="password" placeholder="Sua Senha">
+                <input type="password" id="password" name="password" placeholder="Sua Senha">
             </div>
 
             <?php if (!empty($erro)): ?>
-            <p style="color: red;"><?php echo $erro; ?></p>
+                <p style="color: red; text-align:center"><?php echo $erro; ?></p>
             <?php endif; ?>
 
             <div class="button-group">
                 <button type="button" class="button-update" id="openUpdateModal">Atualizar</button>
                 <button type="button" class="button-delete" id="openDeleteModal">Deletar Conta</button>
             </div>
-            </form>
+        </form>
     </div>
     <!-- Modal Atualizar -->
     <div class="modal" id="modalUpdate">
